@@ -3,16 +3,22 @@ import tkinter as tk
 from tkinter import messagebox
 from conta_bancaria import ContaBancaria
 
-contas = ContaBancaria.carregar_contas()
+
+def carregar_conta_inicial():
+    global conta
+    contas = ContaBancaria.carregar_contas()
+    conta = contas[-1] if contas else None
 
 
 def criar_conta():
     saldo_inicial = float(entry_saldo_inicial.get())
-    contas[-1].criar_conta(saldo_inicial)
+    ContaBancaria().criar_conta(saldo_inicial)
     messagebox.showinfo(
         "Sucesso", f"Conta criada com sucesso com saldo inicial de R$ {saldo_inicial:.2f}")
     # Limpa o campo de entrada após a criação da conta
     entry_saldo_inicial.delete(0, tk.END)
+    # Atualiza a variável conta para apontar para a nova conta criada
+    carregar_conta_inicial()
 
 
 def confirmar_deposito():
@@ -53,6 +59,9 @@ def sair():
     if confirmacao:
         root.destroy()
 
+
+# Carrega a conta inicial ao iniciar o programa
+carregar_conta_inicial()
 
 root = tk.Tk()
 root.title("Banco Dio")
