@@ -3,8 +3,16 @@ import tkinter as tk
 from tkinter import messagebox
 from conta_bancaria import ContaBancaria
 
-# Utiliza a mesma instância da classe ContaBancaria definida em conta_bancaria.py
-conta = ContaBancaria()
+contas = ContaBancaria.carregar_contas()
+
+
+def criar_conta():
+    saldo_inicial = float(entry_saldo_inicial.get())
+    contas[-1].criar_conta(saldo_inicial)
+    messagebox.showinfo(
+        "Sucesso", f"Conta criada com sucesso com saldo inicial de R$ {saldo_inicial:.2f}")
+    # Limpa o campo de entrada após a criação da conta
+    entry_saldo_inicial.delete(0, tk.END)
 
 
 def confirmar_deposito():
@@ -48,6 +56,15 @@ def sair():
 
 root = tk.Tk()
 root.title("Banco Dio")
+
+label_saldo_inicial = tk.Label(root, text="Saldo Inicial:")
+label_saldo_inicial.pack()
+
+entry_saldo_inicial = tk.Entry(root)
+entry_saldo_inicial.pack()
+
+criar_conta_button = tk.Button(root, text="Criar Conta", command=criar_conta)
+criar_conta_button.pack()
 
 label_valor = tk.Label(root, text="Valor:")
 label_valor.pack()

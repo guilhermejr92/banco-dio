@@ -1,12 +1,12 @@
 # banco.py
 from conta_bancaria import ContaBancaria
 
-# Utiliza a mesma instância da classe ContaBancaria definida em conta_bancaria.py
-conta = ContaBancaria()
+contas = ContaBancaria.carregar_contas()
 
 menu = """
 Banco Dio
 
+[c] Criar Conta
 [d] Depositar
 [s] Sacar
 [e] Extrato
@@ -17,7 +17,15 @@ Banco Dio
 while True:
     opcao = input(menu)
 
-    if opcao == "d":
+    if opcao == "c":
+        saldo_inicial = float(input("Informe o saldo inicial da conta: "))
+        conta = ContaBancaria()
+        conta.criar_conta(saldo_inicial)
+        contas.append(conta)
+        ContaBancaria.salvar_conta(conta)
+        print("Conta criada com sucesso!")
+
+    elif opcao == "d":
         valor = float(input("Informe o valor do depósito: "))
         conta.depositar(valor)
         print("Depósito realizado com sucesso!")
